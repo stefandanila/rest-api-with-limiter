@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/api-with-rate-limiter}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:stefan}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8080
+
+#clients config
+clients:
+  - id: client-a
+    rateLimits:
+      - path: /foo
+        numberOfRequests: 3
+        interval:
+          value: 10
+          unit: SECONDS
+
+      - path: /bar
+        numberOfRequests: 5
+        interval:
+          value: 15
+          unit: SECONDS
+
+  - id: client-b
+    rateLimits:
+      - path: /foo
+        numberOfRequests: 3
+        interval:
+          value: 10
+          unit: SECONDS
+
+      - path: /bar
+        numberOfRequests: 5
+        interval:
+          value: 15
+          unit: SECONDS
